@@ -1,0 +1,103 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
+
+
+class Ui_setRange_Window(QtCore.QObject):
+    win_size_sig = QtCore.pyqtSignal(int)
+    def __init__(self):
+        QtCore.QObject.__init__(self)
+
+    def setupUi(self, setRange_Window):
+        
+        #setup UI
+        setRange_Window.setObjectName("setRange_Window")
+        setRange_Window.resize(170, 121)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        setRange_Window.setSizePolicy(sizePolicy)
+        setRange_Window.setMinimumSize(QtCore.QSize(170, 119))
+        setRange_Window.setMaximumSize(QtCore.QSize(200, 119))
+        setRange_Window.setStyleSheet("background-color: rgb(255, 255, 255);")
+
+        #setup central widget
+        self.centralwidget = QtWidgets.QWidget(setRange_Window)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.centralwidget.setSizePolicy(sizePolicy)
+        self.centralwidget.setMinimumSize(QtCore.QSize(100, 80))
+        self.centralwidget.setObjectName("centralwidget")
+
+        #make central widget a grid layout
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+
+        #layout for widget group of label and Qtext
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+
+        #setup label
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+
+        #setup text enter window_size
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setMinimumSize(QtCore.QSize(50, 25))
+        self.textEdit.setMaximumSize(QtCore.QSize(50, 25))
+        self.textEdit.setObjectName("textEdit")
+        self.horizontalLayout.addWidget(self.textEdit)
+
+        #set position horizontal layout in grid layout
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
+
+        #layout for widget group space and button
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+
+        #spacer
+        spacerItem = QtWidgets.QSpacerItem(68, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
+
+        #button
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setMinimumSize(QtCore.QSize(50, 25))
+        self.pushButton.setMaximumSize(QtCore.QSize(50, 25))
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.pushButton.clicked.connect(self.clicked)
+
+        #set position horizontal layout 2 in grid layout
+        self.gridLayout.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
+
+        setRange_Window.setCentralWidget(self.centralwidget)
+
+        #setup menu bar and status bar
+        self.statusbar = QtWidgets.QStatusBar(setRange_Window)
+        self.statusbar.setObjectName("statusbar")
+        setRange_Window.setStatusBar(self.statusbar)
+
+        self.retranslateUi(setRange_Window)
+        QtCore.QMetaObject.connectSlotsByName(setRange_Window)
+
+    def retranslateUi(self, setRange_Window):
+        _translate = QtCore.QCoreApplication.translate
+        setRange_Window.setWindowTitle(_translate("setRange_Window"," "))
+        self.label.setText(_translate("setRange_Window", "Window Size :"))
+        self.pushButton.setText(_translate("setRange_Window", "OK"))
+
+    def clicked(self, setRange_Window):
+        self.value = int(self.textEdit.toPlainText())
+        self.win_size_sig.emit(self.value)
+        # print(self.flag)
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    setRange_Window = QtWidgets.QMainWindow()
+    ui = Ui_setRange_Window()
+    ui.setupUi(setRange_Window)
+    setRange_Window.show()
+    sys.exit(app.exec_())
